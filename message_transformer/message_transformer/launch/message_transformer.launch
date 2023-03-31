@@ -1,0 +1,16 @@
+<launch>
+    <node name="qnx2ros" pkg="message_transformer" type="qnx2ros"  >
+        <param name="SERV_PORT" value="43898" />   
+        <param name="filter_size" value="1" />
+        <param name="is_vel_world" value="true" />
+    </node>
+    <node name="ros2qnx" pkg="message_transformer" type="ros2qnx"  >
+        <param name="vel_x_factor" value="1.0" />
+        <param name="local_port" value="43894"/>
+        <param name="remote_port" value="43893"/>
+        <param name="remote_ip" value="192.168.1.120"/>
+    </node>
+     <node name="nx2app" pkg="message_transformer" type="nx2app" output="screen" >
+        <param name="SERV_PORT" value="43899" />   
+    </node>
+</launch>
