@@ -1,69 +1,70 @@
-# 绝影Lite3感知开发
+# Jueying Lite3 Perception Development
 
-## 运动通信功能包`message_transformer`
+## message_transformer
 
-### 功能介绍
+### Introduction
 
-本案例实现了ROS与UDP消息的功能转换。
+With this package, ROS and UDP messages can be converted to each other.
 
-绝影Lite3的运动主机与感知主机之间、感知主机与手柄App之间的数据传输均采用UDP协议，通过本案例提供的***message_transformer_cpp*** 软件包，可实现：
+The data transmission between the perception host and the motion host or app is based on the UDP protocol. The package ***message_transformer_cpp*** can realize that:
 
-- 将运动主机上报的UDP消息转换为ROS话题进行发布，将感知主机下发的运动控制指令使用UDP发送给运动主机；
-- 接收App发送的控制指令，以开启和关闭感知主机上的AI功能。
+- Transform UDP messages sent by motion host into ROS topic messages and publish, and send motion control commands issued by perception host to motion host using UDP;
+- Receive control commands from the App to turn on and off some functions on perception host.
 	
-其提供的ROS通信接口：
 
-**发布话题:**  运动主机向感知主机传输数据
+**ROS topics:**
 
-```html
-腿部里程计：      /leg_odom       (nav_msgs::Odometry)
-IMU数据：         /imu/data       (sensor_msgs::Imu)
-关节数据：        /joint_states   (sensor_msgs::JointState)
-```
-
-**订阅话题：**  感知主机向运动主机传输数据
+The package will receive the UDP messages from motion host and publish them to the following topics: 
 
 ```html
-速度指令：         /cmd_vel        (geometry_msgs::Twist)
+Leg Odometry Data:		/leg_odom       (nav_msgs::Odometry)
+IMU Data:				/imu/data       (sensor_msgs::Imu)
+Joint Data:				/joint_states   (sensor_msgs::JointState)
+```
+
+The package will subscribe to the following topics and send the topic messages to motion host. 
+
+```html
+Velocity Command:		/cmd_vel        (geometry_msgs::Twist)
 ```
 
 
-### 使用方法
+### How to Use
 
-1. 打开一个新的终端依次执行以下命令，以**启动通信功能包节点** `nx2app`、`rk2ros`、`ros2rk`：
+1. Open a new terminal and enter the following codes to **start the nodes** `nx2app`, `rk2ros`, `ros2rk`:
 
 	```bash
-	cd message_transformer_ws/                                    #进入功能包工作空间（/home/ysc/message_transformer_ws）
-	source devel/setup.bash                                       #添加工作空间环境变量
-	roslaunch message_transformer message_transformer.launch      #启动通信功能包节点
+	cd message_transformer_ws/                                    # go to the package workspace (/home/ysc/message_transformer_ws)
+	source devel/setup.bash                                       # Add workspace environment variables
+	roslaunch message_transformer message_transformer.launch      # Launch the related nodes
 	```
-				
-2. 打开一个新的终端，使用ROS中的rostopic命令**查看机器狗状态信息**：
+	
+2. Open a new terminal and use `rostopic` command to **check the robot status information**:
 	
 	```bash
 	rostopic info xxxxxx
-	rostopic echo xxxxxx     # xxxxxx指的是具体话题名称，可在自己的代码中订阅话题进行二次开发
+	rostopic echo xxxxxx     # xxxxxx refers to the topic name, and users can subscribe to the topic for secondary development
 	```
-		
-3. 使用`/cmd_vel`话题**向运动主机下发速度指令**，话题消息类型`geometry_msgs/Twist`定义如下：
 	
-		```bash
-		geometry_msgs/Vector3 linear   # 线速度(m/s)
-			float64 x              # 前向速度，向前为正
-			float64 y              # 侧向速度，向左为正
-			float64 z	       # 无效参数
-		geometry_msgs/Vector3 angular  # 角速度(rad/s)
-			float64 x	       # 无效参数
-			float64 y	       # 无效参数
-			float64 z              # 转向角速度，左转为正
-		```
-	- 用户可在基于ROS编译的C++和Python程序中发布该话题(需要用户具有ROS基础，ROS基础的学习请参考 http://wiki.ros.org/ROS/Tutorials )，也可以打开一个终端，输入命令发布进行调试，请先输入： 
+3. Use the topic `/cmd_vel` to send velocity commands to motion host, in the format of `geometry_msgs/Twist` :
+	
+	```bash
+	geometry_msgs/Vector3 linear	# Linear velocity (m/s)
+		float64 x					# Longitudinal velocity: positive value when going forward
+		float64 y					# Lateral velocity: positive value when going left
+		float64 z					# Invalid parameter
+	geometry_msgs/Vector3 angular	# Angular velocity (rad/s)
+		float64 x					# Invalid parameter
+		float64 y					# Invalid parameter
+		float64 z					# Angular velocity: positive value when turning left
+	```
+	- Users can publish to this topic in C++ or Python programs compiled based on ROS (refer to http://wiki.ros.org/ROS/Tutorials for learning about ROS ). Users can also publish messages to the topic for debugging in terminal. Please first type the following codes in terminal: 
 
 		```bash
 		rostopic pub /cmd_vel geometry_msgs/Twist
 		```
 
-	- 输入完先不运行，在语句后面加一个空格，再按Tab键，就会自动补充当前消息类型的内容，具体如下：  
+	- Add a space after the codes and press Tab key to complement the message type as follows:  
 
 		```bash
 		rostopic pub /cmd_vel geometry_msgs/Twist "linear:
@@ -76,7 +77,7 @@ IMU数据：         /imu/data       (sensor_msgs::Imu)
 		z: 0.0
 		"
 		```
-	- 使用键盘上的向左/向右方向键移动光标，对速度值进行修改，然后在`geometry_msgs/Twist`之后加入` -r 10` 规定发布频率（即每秒发布10次），输入完毕后终端内容如下所示：
+	- Use the left/right arrow keys on the keyboard to move the cursor, modify the velocity values, and then add ` -r 10` after `geometry_msgs/Twist` to specify the posting frequency (10 times per second) as follows:
 
 		```bash
 		rostopic pub /cmd_vel geometry_msgs/Twist -r 10 "linear:
@@ -90,15 +91,15 @@ IMU数据：         /imu/data       (sensor_msgs::Imu)
 		"
 		```
 
-	- 运行命令，即可发布话题。
+	- Press Enter key to run it, and the topic messages will be published.
 
-	- 传输程序会订阅该话题，并将其转为UDP指令消息发给运动主机。
+	- This package can subscribe to this topic, transform the topic messages into UDP messages and send them to motion host.
 
-	- 在传输程序已正常开启的情况下，用App切入自动模式，机器狗即可按照如上速度行动，为防止在调试过程中对人或物品造成损伤，请在空旷处调试，并随时准备将机器狗切回手动模式进行接管。  
+	- After `message_transformer` starts, use the App to switch to auto mode, the robot can act according to the velocity as published. In order to prevent damage to people or objects, please debug in the open space and switch back to the manual mode or press emergency stop in emergency.
 
-### 二次开发说明
 
-#### 程序结构
+
+### Package Structure
 
 ```bash
 ~/message_transformer_ws/src/message_transformer
@@ -119,19 +120,18 @@ IMU数据：         /imu/data       (sensor_msgs::Imu)
         └── ros2qnx.cpp
 ```
 
-- ***nx2app.cpp***主要用于感知主机与手柄App之间进行UDP通信，App下发指令码到感知主机，该程序根据收到的命令执行相应的操作。手柄下发指令码结构体如下：
+- ***nx2app.cpp*** is mainly used for UDP communication between perception host and App. App sends command code to perception host and ***nx2app.cpp*** will execute tasks according to the received command. Structure definition of the command sent by App is as follows:
 
 	```c
 	//AI switch control command
 	struct AiSwitch
 	{
-		int code;				  //Instruction code
-		int size;				  //Command value
-		int cons_code;				  //Instruction Type
+		int code;					//Instruction code
+		int size;					//Command value
+		int cons_code;				//Instruction Type
 	};
 	```
 
-- ***qnx2ros.cpp***用于接收运动主机上报的数据，并将其转化为ROS话题，供其他功能包调用。
+- ***qnx2ros.cpp*** is used for receiving the data sent by motion host and transform it into ROS topic messages.
 
-- ***ros2qnx.cpp***订阅其他功能包节点发布的话题，转化为UDP数据报下发给运动主机。
-
+- ***ros2qnx.cpp*** can subscirbe to the topic published by other nodes, transform the messages into UDP data and send them to motion host.
