@@ -1,5 +1,7 @@
 # 绝影Lite3感知开发
 
+[English](https://github.com/DeepRoboticsLab/Lite3_ROS/blob/main/README.md)
+
 ## 运动通信功能包`message_transformer`
 
 ### 功能介绍
@@ -49,11 +51,11 @@ IMU数据：         /imu/data       (sensor_msgs::Imu)
 3. 使用`/cmd_vel`话题**向运动主机下发速度指令**，话题消息类型`geometry_msgs/Twist`定义如下：
 	
 	```bash
-	geometry_msgs/Vector3 linear	# 线速度(m/s)
+	geometry_msgs/Vector3 linear				# 线速度(m/s)
 		float64 x					# 前向速度，向前为正
 		float64 y					# 侧向速度，向左为正
 		float64 z					# 无效参数
-	geometry_msgs/Vector3 angular	# 角速度(rad/s)
+	geometry_msgs/Vector3 angular				# 角速度(rad/s)
 		float64 x					# 无效参数
 		float64 y					# 无效参数
 		float64 z					# 转向角速度，左转为正
@@ -126,7 +128,7 @@ IMU数据：         /imu/data       (sensor_msgs::Imu)
 	{
 		int code;				//Instruction code
 		int size;				//Command value
-		int cons_code;			//Instruction Type
+		int cons_code;				//Instruction Type
 	};
 	```
 
