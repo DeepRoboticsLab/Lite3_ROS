@@ -1,5 +1,7 @@
 # Jueying Lite3 Perception Development
 
+[简体中文](https://github.com/DeepRoboticsLab/Lite3_ROS/blob/main/README_ZH.md)
+
 ## message_transformer
 
 ### Introduction
@@ -18,8 +20,8 @@ The package will receive the UDP messages from motion host and publish them to t
 
 ```html
 Leg Odometry Data:		/leg_odom       (nav_msgs::Odometry)
-IMU Data:				/imu/data       (sensor_msgs::Imu)
-Joint Data:				/joint_states   (sensor_msgs::JointState)
+IMU Data:			/imu/data       (sensor_msgs::Imu)
+Joint Data:			/joint_states   (sensor_msgs::JointState)
 ```
 
 The package will subscribe to the following topics and send the topic messages to motion host. 
@@ -49,11 +51,11 @@ Velocity Command:		/cmd_vel        (geometry_msgs::Twist)
 3. Use the topic `/cmd_vel` to send velocity commands to motion host, in the format of `geometry_msgs/Twist` :
 	
 	```bash
-	geometry_msgs/Vector3 linear	# Linear velocity (m/s)
+	geometry_msgs/Vector3 linear				# Linear velocity (m/s)
 		float64 x					# Longitudinal velocity: positive value when going forward
 		float64 y					# Lateral velocity: positive value when going left
 		float64 z					# Invalid parameter
-	geometry_msgs/Vector3 angular	# Angular velocity (rad/s)
+	geometry_msgs/Vector3 angular				# Angular velocity (rad/s)
 		float64 x					# Invalid parameter
 		float64 y					# Invalid parameter
 		float64 z					# Angular velocity: positive value when turning left
@@ -128,7 +130,7 @@ Velocity Command:		/cmd_vel        (geometry_msgs::Twist)
 	{
 		int code;					//Instruction code
 		int size;					//Command value
-		int cons_code;				//Instruction Type
+		int cons_code;					//Instruction Type
 	};
 	```
 
