@@ -1,6 +1,6 @@
 <launch>
     <node name="qnx2ros" pkg="message_transformer" type="qnx2ros"  >
-        <param name="SERV_PORT" value="43898" />   
+        <param name="SERV_PORT" value="43897" />   
         <param name="filter_size" value="1" />
         <param name="is_vel_world" value="true" />
     </node>
