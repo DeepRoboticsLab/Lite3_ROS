@@ -1,6 +1,6 @@
 # 绝影Lite3感知开发
 
-[English](https://github.com/DeepRoboticsLab/Lite3_ROS/blob/main/README.md)
+[English](./README.md)
 
 ## 运动通信功能包`message_transformer`
 
@@ -103,36 +103,33 @@ IMU数据：         /imu/data       (sensor_msgs::Imu)
 
 ```bash
 ~/message_transformer_ws/src/message_transformer
-├── CMakeLists.txt 
 └── message_transformer
     ├── CMakeLists.txt
     ├── include
-    │   ├── input.h
-    │   └── moving_average.h
+    │   ├── protocol.h
+    │   └── sensor_logger_.h
     ├── launch
     │   └── message_transformer.launch
+    ├── msg
+    │   ├── ComplexCMD.msg
+    │   └── SimpleCMD.msg
     ├── package.xml
+    ├── script
+    │   ├── log.sh
+    │   ├── start.sh
+    │   ├── status.sh
+    │   ├── stop.sh
     └── src
-        ├── input.cpp
-        ├── moving_average.cpp
         ├── nx2app.cpp
         ├── qnx2ros.cpp
-        └── ros2qnx.cpp
+        ├── ros2qnx.cpp
+        └── sensor_checker.cpp
 ```
 
-- ***nx2app.cpp***主要用于感知主机与手柄App之间进行UDP通信，App下发指令码到感知主机，该程序根据收到的命令执行相应的操作。手柄下发指令码结构体如下：
-
-	```c
-	//AI switch control command
-	struct AiSwitch
-	{
-		int code;				//Instruction code
-		int size;				//Command value
-		int cons_code;				//Instruction Type
-	};
-	```
+- ***nx2app.cpp***主要用于感知主机与手柄App之间进行UDP通信，App下发指令码到感知主机，该程序根据收到的命令执行相应的操作。
 
 - ***qnx2ros.cpp***用于接收运动主机上报的数据，并将其转化为ROS话题，供其他功能包调用。
 
 - ***ros2qnx.cpp***订阅其他功能包节点发布的话题，转化为UDP数据报下发给运动主机。
 
+- ***sensor_checker.cpp***用于检查机器狗传感器的状态，并提示警告出现错误的传感器。

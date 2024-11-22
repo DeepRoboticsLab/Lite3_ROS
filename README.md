@@ -1,6 +1,6 @@
 # Jueying Lite3 Perception Development
 
-[简体中文](https://github.com/DeepRoboticsLab/Lite3_ROS/blob/main/README_ZH.md)
+[简体中文](./README_ZH.md)
 
 ## message_transformer
 
@@ -105,35 +105,33 @@ Velocity Command:		/cmd_vel        (geometry_msgs::Twist)
 
 ```bash
 ~/message_transformer_ws/src/message_transformer
-├── CMakeLists.txt 
 └── message_transformer
     ├── CMakeLists.txt
     ├── include
-    │   ├── input.h
-    │   └── moving_average.h
+    │   ├── protocol.h
+    │   └── sensor_logger_.h
     ├── launch
     │   └── message_transformer.launch
+    ├── msg
+    │   ├── ComplexCMD.msg
+    │   └── SimpleCMD.msg
     ├── package.xml
+    ├── script
+    │   ├── log.sh
+    │   ├── start.sh
+    │   ├── status.sh
+    │   ├── stop.sh
     └── src
-        ├── input.cpp
-        ├── moving_average.cpp
         ├── nx2app.cpp
         ├── qnx2ros.cpp
-        └── ros2qnx.cpp
+        ├── ros2qnx.cpp
+        └── sensor_checker.cpp
 ```
 
-- ***nx2app.cpp*** is mainly used for UDP communication between perception host and App. App sends command code to perception host and ***nx2app.cpp*** will execute tasks according to the received command. Structure definition of the command sent by App is as follows:
-
-	```c
-	//AI switch control command
-	struct AiSwitch
-	{
-		int code;					//Instruction code
-		int size;					//Command value
-		int cons_code;					//Instruction Type
-	};
-	```
+- ***nx2app.cpp*** is mainly used for UDP communication between perception host and App. App sends command code to perception host and ***nx2app.cpp*** will execute tasks according to the received command. 
 
 - ***qnx2ros.cpp*** is used for receiving the data sent by motion host and transform it into ROS topic messages.
 
 - ***ros2qnx.cpp*** can subscirbe to the topic published by other nodes, transform the messages into UDP data and send them to motion host.
+
+- ***sensor_checker.cpp*** is used for checking the status of the sensors on the robot and issuing warnings for malfunctioning sensors.
