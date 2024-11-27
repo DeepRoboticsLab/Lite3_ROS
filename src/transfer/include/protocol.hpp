@@ -2,38 +2,26 @@
 #define _PROTOCOL_H_
 
 #pragma pack(push, 4)
-class SimpleCMD{
-public:
-  int32_t cmd_code;
-  int32_t cmd_value;
-  int32_t type;
-};
-
-class ComplexCMD : public SimpleCMD{
-public:
-  double data;
-};
 
 namespace QNX2ROSProtocol{
-
 struct ImuData{
-  uint32_t timestamp;
-  union{
-    float buffer_float[9];
-    uint8_t buffer_byte[3][12];
-    struct{
-      float angle_roll,angle_pitch,angle_yaw;
-      float angular_velocity_roll,angular_velocity_pitch,angular_velocity_yaw;
-      float acc_x,acc_y,acc_z;
+    uint32_t timestamp;
+    union{
+        float buffer_float[9];
+        uint8_t buffer_byte[3][12];
+        struct{
+            float angle_roll,angle_pitch,angle_yaw;
+            float angular_velocity_roll,angular_velocity_pitch,angular_velocity_yaw;
+            float acc_x,acc_y,acc_z;
+        };
     };
-  };
 };
 
-struct ImuDataReceived {
-  int code;                              ///< Command code  
-  int size;                              ///< Command value                             
-  int cons_code;                         ///< Command type
-  struct ImuData data;
+struct ImuDataReceived{
+    int code;                              ///< Command code  
+    int size;                              ///< Command value                             
+    int cons_code;                         ///< Command type
+    struct ImuData data;
 };
 
 /// @brief robot state structe implementation
@@ -121,7 +109,7 @@ namespace ControllerType{
 namespace JoystickKeyStatus{
   constexpr bool kReleased = 0; /**< Key is released. */
   constexpr bool kPressed = 1;  /**< Key is pressed. */
-};
+}
 
 /// physical botton data
 class JoystickHead {
@@ -136,57 +124,57 @@ public:
 
 class Channels{
 public:
-  union {
-    uint8_t data[kChannlSize * sizeof(uint16_t)]; /**< Array representing raw data channels. */
-    struct {
-      uint16_t buttons[kChannlSize - kAxisChannlSize - kAxisButtonSize]; /**< Array representing button values. */
-      int16_t left_axis_x; /**< X-axis value of the left analog stick. */
-      int16_t left_axis_y; /**< Y-axis value of the left analog stick. */
-      int16_t right_axis_x; /**< X-axis value of the right analog stick. */
-      int16_t right_axis_y; /**< Y-axis value of the right analog stick. */
-      uint16_t axis_buttons[kAxisButtonSize]; /**< Array representing axis button values. */
+    union{
+        uint8_t data[kChannlSize * sizeof(uint16_t)]; /**< Array representing raw data channels. */
+        struct {
+            uint16_t buttons[kChannlSize - kAxisChannlSize - kAxisButtonSize]; /**< Array representing button values. */
+            int16_t left_axis_x; /**< X-axis value of the left analog stick. */
+            int16_t left_axis_y; /**< Y-axis value of the left analog stick. */
+            int16_t right_axis_x; /**< X-axis value of the right analog stick. */
+            int16_t right_axis_y; /**< Y-axis value of the right analog stick. */
+            uint16_t axis_buttons[kAxisButtonSize]; /**< Array representing axis button values. */
+        };
     };
-  };
 };
 
 struct JoystickChannelFrame : public JoystickHead, public Channels
 {};
 
 struct RetroidKeys {
-  union {
-    uint16_t value; /**< Union to represent the keys as a single value. */
-    struct {
-      uint8_t R1 : 1; /**< R1 button. */
-      uint8_t L1 : 1; /**< L1 button. */
-      uint8_t start : 1; /**< Start button. */
-      uint8_t select : 1; /**< Select button. */
+    union {
+        uint16_t value; /**< Union to represent the keys as a single value. */
+        struct {
+            uint8_t R1 : 1; /**< R1 button. */
+            uint8_t L1 : 1; /**< L1 button. */
+            uint8_t start : 1; /**< Start button. */
+            uint8_t select : 1; /**< Select button. */
 
-      uint8_t R2 : 1; /**< R2 button. */
-      uint8_t L2 : 1; /**< L2 button. */
+            uint8_t R2 : 1; /**< R2 button. */
+            uint8_t L2 : 1; /**< L2 button. */
 
-      uint8_t A : 1; /**< A button. */
-      uint8_t B : 1; /**< B button. */
-      uint8_t X : 1; /**< X button. */
-      uint8_t Y : 1; /**< Y button. */
+            uint8_t A : 1; /**< A button. */
+            uint8_t B : 1; /**< B button. */
+            uint8_t X : 1; /**< X button. */
+            uint8_t Y : 1; /**< Y button. */
 
-      uint8_t left : 1; /**< Left button on the directional pad. */
-      uint8_t right : 1; /**< Right button on the directional pad. */
-      uint8_t up : 1; /**< Up button on the directional pad. */
-      uint8_t down : 1; /**< Down button on the directional pad. */
+            uint8_t left : 1; /**< Left button on the directional pad. */
+            uint8_t right : 1; /**< Right button on the directional pad. */
+            uint8_t up : 1; /**< Up button on the directional pad. */
+            uint8_t down : 1; /**< Down button on the directional pad. */
 
-      uint8_t left_axis_button : 1; /**< Left analog stick button. */
-      uint8_t right_axis_button : 1; /**< Right analog stick button. */
+            uint8_t left_axis_button : 1; /**< Left analog stick button. */
+            uint8_t right_axis_button : 1; /**< Right analog stick button. */
+        };
     };
-  };
-  union {
-    float axis_values[4]; /**< Array representing axis values. */
-    struct {
-      float left_axis_x; /**< X-axis value of the left analog stick. */
-      float left_axis_y; /**< Y-axis value of the left analog stick. */
-      float right_axis_x; /**< X-axis value of the right analog stick. */
-      float right_axis_y; /**< Y-axis value of the right analog stick. */
+    union {
+        float axis_values[4]; /**< Array representing axis values. */
+        struct {
+            float left_axis_x; /**< X-axis value of the left analog stick. */
+            float left_axis_y; /**< Y-axis value of the left analog stick. */
+            float right_axis_x; /**< X-axis value of the right analog stick. */
+            float right_axis_y; /**< Y-axis value of the right analog stick. */
+        };
     };
-  };
 };
 #pragma pack(pop)
 

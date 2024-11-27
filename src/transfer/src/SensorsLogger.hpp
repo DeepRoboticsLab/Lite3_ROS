@@ -1,13 +1,13 @@
-#include "ros/ros.h"
-#include "std_msgs/Bool.h"
+#include "rclcpp/rclcpp.hpp"
+#include "std_msgs/msg/bool.hpp"
 
 class SensorLogger{
 public:
-    SensorLogger(ros::NodeHandle nh, std::string sensor_name) : sensor_name_(sensor_name){
-        sub_ = nh.subscribe("/sensor_status/" + sensor_name + "_isalive", 1, &SensorLogger::sensor_stat_set, this);
+    SensorLogger(rclcpp::Node::SharedPtr nh, std::string sensor_name) : sensor_name_(sensor_name){
+        sub_ = nh->create_subscription<std_msgs::msg::Bool>("/sensor_status/" + sensor_name + "_isalive", 1, std::bind(&SensorLogger::sensor_stat_set, this, std::placeholders::_1));
     }
 
-    void sensor_stat_set(const std_msgs::Bool::ConstPtr& msg)
+    void sensor_stat_set(std_msgs::msg::Bool::ConstSharedPtr msg)
     {
         isalive_ = msg->data;
     }
@@ -15,7 +15,7 @@ public:
     bool isalive_=false;
 
 private:
-    ros::Subscriber sub_;
+    rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr sub_;
     std::string sensor_name_;
 };
 
@@ -30,7 +30,8 @@ public:
     std::unique_ptr<SensorLogger> lidar_;
     std::unique_ptr<SensorLogger> ultrasound_;
 
-    SensorsLogger(ros::NodeHandle &nh){
+    SensorsLogger(rclcpp::Node::SharedPtr nh)
+    : nh_(nh){
         imu_ = std::make_unique<SensorLogger>(nh, "imu");
         odom_ = std::make_unique<SensorLogger>(nh, "odom");
         odom2_ = std::make_unique<SensorLogger>(nh, "odom2");
@@ -39,6 +40,11 @@ public:
         lidar_ = std::make_unique<SensorLogger>(nh, "lidar");
         ultrasound_ = std::make_unique<SensorLogger>(nh, "ultrasound");
     }
+    ~SensorsLogger(){
+        RCLCPP_INFO(nh_->get_logger(), "~SensorsLogger()");
+    }
+
 private:
+    rclcpp::Node::SharedPtr nh_;
     bool isdebug_=false;
 };
