@@ -29,7 +29,7 @@ IMU数据:			/imu/data		(sensor_msgs::msg::Imu)
 **订阅话题：**  感知主机向运动主机传输数据
 
 ```html
-速度指令:			/cmd_vel	(geometry_msg::msg::Twist)
+速度指令:			/cmd_vel		(geometry_msg::msg::Twist)
 ```
 
 
