@@ -20,16 +20,16 @@ The data transmission between the perception host and the motion host or app is 
 The package will receive the UDP messages from motion host and publish them to the following topics: 
 
 ```html
-Leg Odometry Data(pose only):		/leg_odom       (geometry_msgs::msg::PoseWithCovarianceStamped)
-Leg Odometry Data(pose and velocity):		/leg_odom2(nav_msgs::msg::Odometry)
-IMU Data:			/imu/data       (sensor_msgs::msg::Imu)
-Joint Data:			/joint_states   (sensor_msgs::msg::JointState)
+Leg Odometry Data(pose only):		/leg_odom		(geometry_msgs::msg::PoseWithCovarianceStamped)
+Leg Odometry Data(pose and velocity):	/leg_odom2		(nav_msgs::msg::Odometry)
+IMU Data:				/imu/data		(sensor_msgs::msg::Imu)
+Joint Data:				/joint_states		(sensor_msgs::msg::JointState)
 ```
 
 The package will subscribe to the following topics and send the topic messages to motion host. 
 
 ```html
-Velocity Command:		/cmd_vel        (geometry_msgs::msg::Twist)
+Velocity Command:			/cmd_vel		(geometry_msgs::msg::Twist)
 ```
 
 
@@ -38,8 +38,8 @@ Velocity Command:		/cmd_vel        (geometry_msgs::msg::Twist)
 1. Open a new terminal and enter the following codes to **start the nodes** `jetson2motion`, `jetson2app`, `sensor_checker`:
 
 	```bash
-	source ~/lite_cog_ros2/transfer/devel/setup.bash                                       # Add workspace environment variables
-	roslaunch transfer transfer.launch      # Launch the related nodes
+	source ~/lite_cog_ros2/transfer/devel/setup.bash	# Add workspace environment variables
+	roslaunch transfer transfer.launch			# Launch the related nodes
 	```
 
 2. Open a new terminal and use `ros2 topic` command to **check the robot status information**:
@@ -52,11 +52,11 @@ Velocity Command:		/cmd_vel        (geometry_msgs::msg::Twist)
 3. Use the topic `/cmd_vel` to send velocity commands to motion host, in the format of `geometry_msgs/msg/Twist` :
 	
 	```bash
-	geometry_msgs/msg/Vector3 linear				# Linear velocity (m/s)
+	geometry_msgs/msg/Vector3 linear			# Linear velocity (m/s)
 		float64 x					# Longitudinal velocity: positive value when going forward
 		float64 y					# Lateral velocity: positive value when going left
 		float64 z					# Invalid parameter
-	geometry_msgs/msg/Vector3 angular				# Angular velocity (rad/s)
+	geometry_msgs/msg/Vector3 angular			# Angular velocity (rad/s)
 		float64 x					# Invalid parameter
 		float64 y					# Invalid parameter
 		float64 z					# Angular velocity: positive value when turning left
