@@ -20,16 +20,16 @@
 **发布话题:**  运动主机向感知主机传输数据
 
 ```html
-足式里程计(仅位姿):     /leg_odom       (geometry_msgs::msg::PoseWithCovarianceStamped)
-足式里程计(位姿和速度):     /leg_odom2      (nav_msgs::msg::Odometry)
-IMU数据:       /imu/data       (sensor_msgs::msg::Imu)
-关节数据:       /joint_states   (sensor_msgs::msg::JointState)
+足式里程计(仅位姿):		/leg_odom		(geometry_msgs::msg::PoseWithCovarianceStamped)
+足式里程计(位姿和速度):		/leg_odom2		(nav_msgs::msg::Odometry)
+IMU数据:			/imu/data		(sensor_msgs::msg::Imu)
+关节数据:			/joint_states		(sensor_msgs::msg::JointState)
 ```
 
 **订阅话题：**  感知主机向运动主机传输数据
 
 ```html
-速度指令:   /cmd_vel        (geometry_msg::msg::Twist)
+速度指令:			/cmd_vel	(geometry_msg::msg::Twist)
 ```
 
 
@@ -38,8 +38,8 @@ IMU数据:       /imu/data       (sensor_msgs::msg::Imu)
 1. 打开一个新的终端依次执行以下命令，以**启动通信功能包节点** `jetson2motion`, `jetson2app`, `sensor_checker`:
 
 	```bash
-	source ~/lite_cog_ros2/transfer/devel/setup.bash            #添加transfer程序包工作空间环境变量
-	roslaunch transfer transfer.launch    #启动通信功能包节点
+	source ~/lite_cog_ros2/transfer/devel/setup.bash	#添加transfer程序包工作空间环境变量
+	roslaunch transfer transfer.launch   			#启动通信功能包节点
 	```
 
 2. 打开一个新的终端，使用ROS中的`ros2 topic`命令**查看机器狗状态信息**：
@@ -52,11 +52,11 @@ IMU数据:       /imu/data       (sensor_msgs::msg::Imu)
 3. 使用`/cmd_vel`话题**向运动主机下发速度指令**，话题消息类型`geometry_msgs/msg/Twist`定义如下：
 
 	```bash
-	geometry_msgs/msg/Vector3 linear				# 线速度(m/s)
+	geometry_msgs/msg/Vector3 linear			# 线速度(m/s)
 		float64 x					# 前向速度，向前为正
 		float64 y					# 侧向速度，向左为正
 		float64 z					# 无效参数
-	geometry_msgs/msg/Vector3 angular				# 角速度(rad/s)
+	geometry_msgs/msg/Vector3 angular			# 角速度(rad/s)
 		float64 x					# 无效参数
 		float64 y					# 无效参数
 		float64 z					# 转向角速度，左转为正
