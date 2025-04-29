@@ -38,8 +38,8 @@ Velocity Command:			/cmd_vel		(geometry_msgs::msg::Twist)
 1. Open a new terminal and enter the following codes to **start the nodes** `jetson2motion`, `jetson2app`, `sensor_checker`:
 
 	```bash
-	source ~/lite_cog_ros2/transfer/devel/setup.bash	# Add workspace environment variables
-	roslaunch transfer transfer.launch			# Launch the related nodes
+	source ~/lite_cog_ros2/transfer/install/setup.bash	# Add workspace environment variables
+	ros2 launch transfer transfer.launch			# Launch the related nodes
 	```
 
 2. Open a new terminal and use `ros2 topic` command to **check the robot status information**:
@@ -78,7 +78,7 @@ Velocity Command:			/cmd_vel		(geometry_msgs::msg::Twist)
 ### Package Structure
 
 ```bash
-~/lite_cog/transfer/
+~/lite_cog_ros2/transfer/
 ├── LICENSE
 ├── README.md
 ├── README_ZH.md

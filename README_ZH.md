@@ -38,8 +38,8 @@ IMU数据:			/imu/data		(sensor_msgs::msg::Imu)
 1. 打开一个新的终端依次执行以下命令，以**启动通信功能包节点** `jetson2motion`, `jetson2app`, `sensor_checker`:
 
 	```bash
-	source ~/lite_cog_ros2/transfer/devel/setup.bash	#添加transfer程序包工作空间环境变量
-	roslaunch transfer transfer.launch   			#启动通信功能包节点
+	source ~/lite_cog_ros2/transfer/install/setup.bash	#添加transfer程序包工作空间环境变量
+	ros2 launch transfer transfer.launch   			#启动通信功能包节点
 	```
 
 2. 打开一个新的终端，使用ROS中的`ros2 topic`命令**查看机器狗状态信息**：
@@ -76,7 +76,7 @@ IMU数据:			/imu/data		(sensor_msgs::msg::Imu)
 ### 程序结构
 
 ```bash
-~/lite_cog/transfer/
+~/lite_cog_ros2/transfer/
 ├── LICENSE
 ├── README.md
 ├── README_ZH.md
