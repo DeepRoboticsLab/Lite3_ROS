@@ -128,16 +128,16 @@ public:
     {
     case 0x21012109:{
       //start obstacle avoidance
-      if (dr->cmd_value==0x40 && function_state_.obstacle_avoidance == false)
+      if (dr->cmd_value==0x40)
       {
         if(sensors_logger_->imu_->isalive_)
         {
           logfile_ << "start obstacle avoidance" << endl;
           int ret;
-          ret = system("systemctl start realsense.service &");
-          logfile_ << "systemctl start realsense.service & " << ret << endl;
-          ret = system("systemctl start voa.service &");
-          logfile_ << "systemctl start realsense.service & " << ret << endl;
+          ret = system("systemctl restart realsense.service &");
+          logfile_ << "systemctl restart realsense.service & " << ret << endl;
+          ret = system("systemctl restart voa.service &");
+          logfile_ << "systemctl restart realsense.service & " << ret << endl;
           function_state_.obstacle_avoidance = true; 
         }
         else
@@ -160,14 +160,8 @@ public:
     }
     //Inquire obstacle avoidance state
     case 0x2101210D:{
-      char outBuf[7]="";
-      FILE *fp = popen("systemctl is-active voa.service", "r");
-      if(fp){
-          char *ret = fgets(outBuf, 7, fp);
-          pclose(fp);
-      }
       SimpleCMD message;
-      if(memcmp(outBuf,"active",6)==0)  
+      if(function_state_.obstacle_avoidance)  
       {
         logfile_ << "voa active" << endl;
         message.cmd_code = 0x2101210D;
