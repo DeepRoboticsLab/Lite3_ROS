@@ -23,11 +23,13 @@ struct ImuDataReceived{
     int cons_code;                         ///< Command type
     struct ImuData data;
 };
+#pragma pack(pop)
 
 /// @brief robot state structe implementation
 struct RobotState {
   int robot_basic_state;                 ///< Basic motion state of robot
-  int robot_gait_state;                  ///< Robot gait information
+  int robot_gait_state;
+  int robot_policy_state;                  ///< Robot gait information
   double rpy[3];                         ///< IMU angular 
   double rpy_vel[3];                     ///< IMU angular velocity
   double xyz_acc[3];                     ///< IMU acceleration
@@ -44,6 +46,8 @@ struct RobotState {
   bool zero_position_flag;               ///< Zero return flag bit
   double ultrasound[2];
 };
+
+#pragma pack(push, 4)
 struct RobotStateReceived {
   int code;                              ///< Command code  
   int size;                              ///< Command value                             
