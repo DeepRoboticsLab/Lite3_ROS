@@ -33,6 +33,19 @@ Velocity Command:			/cmd_vel		(geometry_msgs::msg::Twist)
 ```
 
 
+### Compilation Options
+
+The `RobotState` struct in `protocol.hpp` contains a field `robot_policy_state` that is **enabled by default**. To disable it (for compatibility with older protocol versions), add the following flag when building:
+
+```bash
+colcon build --cmake-args -DENABLE_ROBOT_POLICY_STATE=OFF
+```
+
+Or modify the `CMakeLists.txt` option directly:
+```cmake
+set(ENABLE_ROBOT_POLICY_STATE OFF)
+```
+
 ### How to Use
 
 1. Open a new terminal and enter the following codes to **start the nodes** `jetson2motion`, `jetson2app`, `sensor_checker`:
