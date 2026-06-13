@@ -12,6 +12,13 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
+# Option to enable robot_policy_state field in RobotState struct (for newer protocol versions)
+option(ENABLE_ROBOT_POLICY_STATE "Enable robot_policy_state field in RobotState" ON)
+if(ENABLE_ROBOT_POLICY_STATE)
+  add_compile_definitions(ENABLE_ROBOT_POLICY_STATE)
+  message(STATUS "robot_policy_state field enabled")
+endif()
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)

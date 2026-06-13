@@ -33,6 +33,19 @@ IMU数据:			/imu/data		(sensor_msgs::msg::Imu)
 ```
 
 
+### 编译选项
+
+`protocol.hpp` 中 `RobotState` 结构体的 `robot_policy_state` 字段**默认启用**。如需禁用（兼容旧版本协议），编译时添加如下参数：
+
+```bash
+colcon build --cmake-args -DENABLE_ROBOT_POLICY_STATE=OFF
+```
+
+或直接在 `CMakeLists.txt` 中修改选项：
+```cmake
+set(ENABLE_ROBOT_POLICY_STATE OFF)
+```
+
 ### 使用方法
 
 1. 打开一个新的终端依次执行以下命令，以**启动通信功能包节点** `jetson2motion`, `jetson2app`, `sensor_checker`:

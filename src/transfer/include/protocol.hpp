@@ -29,7 +29,9 @@ struct ImuDataReceived{
 struct RobotState {
   int robot_basic_state;                 ///< Basic motion state of robot
   int robot_gait_state;
+#ifdef ENABLE_ROBOT_POLICY_STATE
   int robot_policy_state;                  ///< Robot gait information
+#endif
   double rpy[3];                         ///< IMU angular 
   double rpy_vel[3];                     ///< IMU angular velocity
   double xyz_acc[3];                     ///< IMU acceleration
